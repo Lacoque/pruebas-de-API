@@ -1,7 +1,7 @@
 // Configura el ID de la hoja y tu clave de API
 const SHEET_ID = "1iNUtmsC1luRC7JnTSEVIZbYXdr_AV5RAoPH7JeNCJdw"; // ID de la hoja
 const API_KEY = "AIzaSyD1S_zruzhDTLRyUEPBHbm1fMEojn9SYes"; // Tu clave de API
-const SHEET_NAME = "Simulacion TATA"; // Nombre exacto de la pestaña en la hoja
+const SHEET_NAME = "Programación especial para escuelas"; // Nombre exacto de la pestaña en la hoja
 
 // URL para acceder a los datos
 const API_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
