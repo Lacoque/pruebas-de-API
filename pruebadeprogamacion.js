@@ -1,5 +1,5 @@
 // Configura el ID de la hoja y tu clave de API
-const SHEET_ID = "1iNUtmsC1luRC7JnTSEVIZbYXdr_AV5RAoPH7JeNCJdw"; // ID de la hoja
+const SHEET_ID = "https://docs.google.com/spreadsheets/d/1iNUtmsC1luRC7JnTSEVIZbYXdr_AV5RAoPH7JeNCJdw/edit?gid=0#gid=0&range=A1"; // ID de la hoja
 const API_KEY = "AIzaSyD1S_zruzhDTLRyUEPBHbm1fMEojn9SYes"; // Tu clave de API
 const SHEET_NAME = "Simulacion TATA"; // Nombre exacto de la pestaña en la hoja
 
