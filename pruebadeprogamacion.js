@@ -1,36 +1,35 @@
 // Configura el ID de la hoja y tu clave de API
 const SHEET_ID = "1iNUtmsC1luRC7JnTSEVIZbYXdr_AV5RAoPH7JeNCJdw"; // ID de la hoja
 const API_KEY = "AIzaSyD1S_zruzhDTLRyUEPBHbm1fMEojn9SYes"; // Tu clave de API
-const SHEET_NAME = "Programación especial para escuelas"; // Nombre exacto de la pestaña en la hoja
+const SHEET_NAME = "SimulacionTATA"; // Nombre exacto de la pestaña en la hoja
 
-// URL para acceder a los datos
 const API_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
 
-
-// Elemento donde mostrar los eventos
-const eventList = document.getElementById("event-list");
-
-// Función para cargar eventos desde Google Sheets
 async function loadEvents() {
   try {
+    console.log("URL de la API:", API_URL);
     const response = await fetch(API_URL);
-    const data = await response.json();
 
-    // Verifica si hay datos
+    if (!response.ok) {
+      throw new Error(`Error en la respuesta: ${response.status} - ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log("Datos recibidos:", data);
+
     if (!data.values || data.values.length < 2) {
       eventList.innerHTML = "<p>No se encontraron eventos.</p>";
       return;
     }
 
-    // Procesar filas (omite la primera fila si es encabezado)
-     const rows = data.values.slice(1);
-
-    // Filtrar eventos futuros
+    const rows = data.values.slice(1); // Omite la fila de encabezados
     const now = new Date();
-    const upcomingEvents = rows.filter(row => new Date(row[2]) > now);
+    const upcomingEvents = rows.filter(row => {
+      const eventDate = new Date(row[2]);
+      return eventDate > now && !isNaN(eventDate);
+    });
 
-    // Mostrar los eventos en la página
-    eventList.innerHTML = ""; // Limpia el contenido anterior
+    eventList.innerHTML = ""; // Limpia la lista anterior
     if (upcomingEvents.length > 0) {
       upcomingEvents.forEach(event => {
         const eventElement = document.createElement("div");
@@ -47,12 +46,11 @@ async function loadEvents() {
     }
   } catch (error) {
     console.error("Error al cargar los eventos:", error);
-    eventList.innerHTML = "<p>Error al cargar los eventos. Revisa la consola para más detalles.</p>";
+    eventList.innerHTML = `<p>Error al cargar los eventos: ${error.message}</p>`;
   }
 }
 
-// Llamar a la función para cargar los eventos
+// Llamar a la función
 loadEvents();
+setInterval(loadEvents, 30000);
 
-// Actualizar automáticamente cada 30 segundos
-setInterval(loadEvents, 30000); // 30000 ms = 30 segundos
