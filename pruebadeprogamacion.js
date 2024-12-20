@@ -1,7 +1,7 @@
 // Configura el ID de la hoja y tu clave de API
 const SHEET_ID = "1iNUtmsC1luRC7JnTSEVIZbYXdr_AV5RAoPH7JeNCJdw"; // ID de la hoja
 const API_KEY = "AIzaSyD12vRNA2cedT12RB3RJazOSxCj3NiaHg8"; // Tu clave de API
-const SHEET_NAME = "SimulacionTATA"; // Nombre exacto de la pestaña en la hoja
+const SHEET_NAME = "Tabla_1"; // Nombre exacto de la pestaña en la hoja
 
 const API_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
 
@@ -51,6 +51,6 @@ async function loadEvents() {
 }
 
 // Llamar a la función
-loadEvents();
-setInterval(loadEvents, 30000);
+//loadEvents();
+//setInterval(loadEvents, 30000);
 
