@@ -17,7 +17,7 @@ async function loadEvents() {
     const data = await response.json();
     console.log("Datos recibidos:", data);
 
-    if (!data.values || data.values.length < 2) {
+    if (!data.values || data.values.length === 0) {
       eventList.innerHTML = "<p>No se encontraron eventos.</p>";
       return;
     }
