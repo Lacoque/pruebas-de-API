@@ -1,46 +1,35 @@
-// Configura el ID de la hoja y tu clave de API
-const SHEET_ID = "1iNUtmsC1luRC7JnTSEVIZbYXdr_AV5RAoPH7JeNCJd"; // ID de la hoja
-const API_KEY = "AIzaSyD12vRNA2cedT12RB3RJazOSxCj3NiaHg8"; // Tu clave de API
-const SHEET_NAME = "Simulacion"; // Nombre exacto de la pestaña en la hoja
+// Reemplaza esta URL con el endpoint que te dio Sheety
+const SHEETY_URL = "https://api.sheety.co/758e3fe91df1616c0b05e2105a5e3b6f/simulacion/hoja1";
 
-const API_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}!A1:C?key=${API_KEY}`;
-
-const eventList = document.getElementById("event-list");
-
-async function loadEvents() {
+// Función para obtener los datos de Google Sheets
+async function obtenerEventos() {
   try {
-    const response = await fetch(API_URL);
-    const data = await response.json();
+    const respuesta = await fetch(SHEETY_URL);
+    const datos = await respuesta.json();
 
-    if (!data.values || data.values.length < 2) {
-      eventList.innerHTML = "<p>No se encontraron eventos.</p>";
-      return;
-    }
-
-    const rows = data.values.slice(1);
-    const now = new Date();
-    const upcomingEvents = rows.filter(row => new Date(row[2]) > now);
-
-    eventList.innerHTML = "";
-    if (upcomingEvents.length > 0) {
-      upcomingEvents.forEach(event => {
-        const eventElement = document.createElement("div");
-        eventElement.classList.add("event");
-        eventElement.innerHTML = `
-          <h2>${event[0]}</h2>
-          <p>${event[1]}</p>
-          <p><strong>Fecha:</strong> ${new Date(event[2]).toLocaleDateString()}</p>
-        `;
-        eventList.appendChild(eventElement);
-      });
-    } else {
-      eventList.innerHTML = "<p>No hay eventos próximos.</p>";
-    }
+    // Asegúrate de que los eventos están en el objeto adecuado
+    const eventos = datos.hoja1 || []; // Cambia 'eventos' por el nombre de tu hoja
+    mostrarEventos(eventos);
   } catch (error) {
-    console.error("Error al cargar los eventos:", error);
-    eventList.innerHTML = `<p>Error al cargar los eventos: ${error.message}</p>`;
+    console.error("Error al obtener los eventos:", error);
   }
 }
 
-loadEvents();
-setInterval(loadEvents, 30000);
+// Función para mostrar los datos en el sitio
+function mostrarEventos(eventos) {
+  const contenedor = document.getElementById("eventos");
+  contenedor.innerHTML = "";
+
+  eventos.forEach(evento => {
+    const eventoDiv = document.createElement("div");
+    eventoDiv.innerHTML = `
+      <h3>${evento.nombre}</h3>
+      <p><strong>Fecha:</strong> ${evento.fecha}</p>
+      <p>${evento.descripcion}</p>
+    `;
+    contenedor.appendChild(eventoDiv);
+  });
+}
+
+// Llama a la función al cargar la página
+obtenerEventos();
