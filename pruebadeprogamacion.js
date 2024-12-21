@@ -23,9 +23,9 @@ function mostrarEventos(eventos) {
   eventos.forEach(evento => {
     const eventoDiv = document.createElement("div");
     eventoDiv.innerHTML = `
-      <h3>${evento.nombre}</h3>
-      <p><strong>Fecha:</strong> ${evento.fecha}</p>
-      <p>${evento.descripcion}</p>
+      <h3>${evento.título}</h3>
+      <p><strong>Fecha:</strong> ${evento.fechaYHora}</p>
+      <p>${evento.descripción}</p>
     `;
     contenedor.appendChild(eventoDiv);
   });
