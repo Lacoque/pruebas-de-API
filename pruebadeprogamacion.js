@@ -1,35 +1,27 @@
 // Configura el ID de la hoja y tu clave de API
-const SHEET_ID = "1iNUtmsC1luRC7JnTSEVIZbYXdr_AV5RAoPH7JeNCJdw"; // ID de la hoja
+const SHEET_ID = "1iNUtmsC1luRC7JnTSEVIZbYXdr_AV5RAoPH7JeNCJd"; // ID de la hoja
 const API_KEY = "AIzaSyD12vRNA2cedT12RB3RJazOSxCj3NiaHg8"; // Tu clave de API
-const SHEET_NAME = "Tabla_1"; // Nombre exacto de la pestaña en la hoja
+const SHEET_NAME = "Simulacion"; // Nombre exacto de la pestaña en la hoja
 
-const API_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+const API_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}!A1:C?key=${API_KEY}`;
+
+const eventList = document.getElementById("event-list");
 
 async function loadEvents() {
   try {
-    console.log("URL de la API:", API_URL);
     const response = await fetch(API_URL);
-
-    if (!response.ok) {
-      throw new Error(`Error en la respuesta: ${response.status} - ${response.statusText}`);
-    }
-
     const data = await response.json();
-    console.log("Datos recibidos:", data);
 
-    if (!data.values || data.values.length === 0) {
+    if (!data.values || data.values.length < 2) {
       eventList.innerHTML = "<p>No se encontraron eventos.</p>";
       return;
     }
 
-    const rows = data.values.slice(1); // Omite la fila de encabezados
+    const rows = data.values.slice(1);
     const now = new Date();
-    const upcomingEvents = rows.filter(row => {
-      const eventDate = new Date(row[2]);
-      return eventDate > now && !isNaN(eventDate);
-    });
+    const upcomingEvents = rows.filter(row => new Date(row[2]) > now);
 
-    eventList.innerHTML = ""; // Limpia la lista anterior
+    eventList.innerHTML = "";
     if (upcomingEvents.length > 0) {
       upcomingEvents.forEach(event => {
         const eventElement = document.createElement("div");
@@ -37,7 +29,7 @@ async function loadEvents() {
         eventElement.innerHTML = `
           <h2>${event[0]}</h2>
           <p>${event[1]}</p>
-          <p><strong>Fecha:</strong> ${new Date(event[2]).toLocaleString()}</p>
+          <p><strong>Fecha:</strong> ${new Date(event[2]).toLocaleDateString()}</p>
         `;
         eventList.appendChild(eventElement);
       });
@@ -50,7 +42,5 @@ async function loadEvents() {
   }
 }
 
-// Llamar a la función
-//loadEvents();
-//setInterval(loadEvents, 30000);
-
+loadEvents();
+setInterval(loadEvents, 30000);
