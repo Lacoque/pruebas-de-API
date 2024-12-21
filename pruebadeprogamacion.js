@@ -33,3 +33,6 @@ function mostrarEventos(eventos) {
 
 // Llama a la función al cargar la página
 obtenerEventos();
+// Refresca los datos automáticamente cada 10 segundos (10000 ms)
+const REFRESH_INTERVAL = 10000;
+setInterval(obtenerEventos, REFRESH_INTERVAL);
