@@ -1,6 +1,12 @@
 // Reemplaza esta URL con el endpoint que te dio Sheety
-const SHEETY_URL = "https://api.sheety.co/758e3fe91df1616c0b05e2105a5e3b6f/simulacion/hoja1";
-
+//const SHEETY_URL = "https://api.sheety.co/758e3fe91df1616c0b05e2105a5e3b6f/simulacion/hoja1";
+let url = 'https://api.sheety.co/758e3fe91df1616c0b05e2105a5e3b6f/simulacion/hoja1';
+fetch(url)
+.then((response) => response.json())
+.then(json => {
+  // Do something with the data
+  console.log(json.hoja1S);
+});
 // Función para obtener los datos de Google Sheets
 async function obtenerEventos() {
   try {
