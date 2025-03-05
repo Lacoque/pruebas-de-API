@@ -1,5 +1,5 @@
 // Reemplaza esta URL con el endpoint que te dio Sheety
-const SHEETY_URL = "https://api.sheety.co/758e3fe91df1616c0b05e2105a5e3b6f/simulacion/hoja1";
+const SHEETY_URL = "https://api.sheety.co/758e3fe91df1616c0b05e2105a5e3b6f/programacion/martes";
 
 // Función para obtener los datos de Google Sheets
 async function obtenerEventos() {
@@ -23,9 +23,10 @@ function mostrarEventos(eventos) {
   eventos.forEach(evento => {
     const eventoDiv = document.createElement("div");
     eventoDiv.innerHTML = `
-      <h3>${evento.título}</h3>
-      <p><strong>Fecha:</strong> ${evento.fechaYHora}</p>
-      <p>${evento.descripción}</p>
+    <p>${evento.localidad}</p>
+    <p><strong>Hora:</strong> ${evento.hora}</p>
+    <h3>${evento.obra}</h3>
+    <p>${evento.grupo}</p>
     `;
     contenedor.appendChild(eventoDiv);
   });
